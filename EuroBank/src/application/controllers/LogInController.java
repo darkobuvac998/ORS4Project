@@ -1,13 +1,17 @@
 package application.controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 public class LogInController {
 
@@ -30,7 +34,15 @@ public class LogInController {
 	@FXML
 	private ImageView image;
 	
-//	void initialize() {
-//		
-//	}
+	@FXML
+	void close(ActionEvent event) {
+		((Stage)(((Button)event.getSource()).getScene().getWindow())).close();
+	}
+	
+	@FXML
+	void logIn(ActionEvent event) throws IOException{
+		new BankBranchesController().showBankBranchesView();
+		((Node)event.getSource()).getScene().getWindow().hide();
+	}
+	
 }
