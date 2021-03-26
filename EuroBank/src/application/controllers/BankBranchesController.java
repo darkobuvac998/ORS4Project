@@ -2,7 +2,6 @@ package application.controllers;
 
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
@@ -31,10 +30,10 @@ public class BankBranchesController {
 	Scene scene;
 	
 	void showBankBranchesView() throws IOException{
-		URL url =Paths.get("C:\\Users\\Dell\\eclipse-workspace\\ORS4Projekat\\ORS4Project\\EuroBank\\src\\application\\views\\BankBranchesView.fxml").toUri().toURL();
-		loader.setLocation(url);
+		loader.setLocation(getClass().getResource("/application/views/BankBranchesView.fxml"));
 		Parent view = (Parent)loader.load();
 		scene = new Scene(view);
+		scene.getStylesheets().add(getClass().getResource("/application/application.css").toExternalForm());
 		Stage stage = new Stage();
 		stage.setTitle("EuroBank - Filijale");
 		stage.setScene(scene);

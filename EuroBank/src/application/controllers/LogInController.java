@@ -41,6 +41,10 @@ public class LogInController {
 	
 	@FXML
 	void logIn(ActionEvent event) throws IOException{
+		//TODO Implementirati LogIn (Autentifikaciju)
+		//Napraviti poseban file Users.txt u kome se nalaze korisnici i prilikom prijave
+		//korisnik mora unijeti korisnicko ime i sifru
+		//citanje iz file sistema
 		new BankBranchesController().showBankBranchesView();
 		((Node)event.getSource()).getScene().getWindow().hide();
 	}

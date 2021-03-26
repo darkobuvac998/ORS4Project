@@ -19,9 +19,9 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <ImageView fx:id="image" fitHeight="150.0" fitWidth="180.0" layoutX="95.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="image" fitHeight="150.0" fitWidth="174.0" layoutX="95.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../Images/495-4952535_create-digital-profile-icon-blue-user-profile-icon.png" />
+            <Image url="@../../../Images/495-4952535_create-digital-profile-icon-blue-user-profile-icon.png" />
          </image>
       </ImageView>
       <Label fx:id="eblabel" alignment="CENTER" layoutX="106.0" layoutY="37.0" prefHeight="18.0" prefWidth="142.0" text="EuroBank">
