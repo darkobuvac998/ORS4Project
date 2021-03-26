@@ -1,13 +1,16 @@
 package application.controllers;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.Socket;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import application.users.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -42,7 +45,7 @@ public class LogInController {
 	@FXML
 	private Label message;
 	
-	ArrayList<User> users = new ArrayList<User>();
+	private Socket socket;
 	
 	@FXML
 	void close(ActionEvent event) {
@@ -51,22 +54,41 @@ public class LogInController {
 	
 	@FXML
 	void logIn(ActionEvent event) throws IOException{
-		boolean data=false;
 		String user = username.getText();
 		String password = this.password.getText();
 		
-		for(User u : users) {
-			if(u.authentification(user, password)) {
-				data = true;
-				break;
+		int PORT = 9999;
+		
+		if(isInputCorrect()) {
+			try {
+				InetAddress address = InetAddress.getByName("127.0.0.1");
+				socket = new Socket(address,PORT);
+				
+				BufferedReader reader = new BufferedReader(
+						new InputStreamReader(socket.getInputStream()));
+				PrintWriter writer = new PrintWriter(new BufferedWriter(
+						new OutputStreamWriter(socket.getOutputStream())), true);
+				
+				String request = "USER#"+user+"#"+password;
+				writer.println(request);
+				
+				String response = reader.readLine();
+				if(response.equals("true")) {
+					new BankBranchesController().showBankBranchesView();
+					((Node)event.getSource()).getScene().getWindow().hide();
+				}else {
+					message.setText("*Pogrešna lozinka ili korisničko ime");
+				}
+				reader.close();
+				writer.close();
+				socket.close();		
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
 			}
-		}
-		if(data) {
-			new BankBranchesController().showBankBranchesView();
-			((Node)event.getSource()).getScene().getWindow().hide();
 		}else {
-			message.setText("*Pogrešna lozinka ili korisničko ime");
+			message.setText("*Popunite sva polja!");
 		}
+		
 	}
 	@FXML
 	void onMouseExited(MouseEvent event) {
@@ -75,20 +97,11 @@ public class LogInController {
 	
 	@FXML //Method called from FXMLloader after initialization 
 	void initialize() {
-		try {
-			
-			BufferedReader reader = new BufferedReader(
-					new FileReader("@../../Database/Users.txt"));
-			
-			String s;
-			while((s = reader.readLine())!=null) {
-				String[] data = s.split("#");
-				users.add(new User(data[0], data[1]));
-			}
-			reader.close();
-		} catch (IOException ex) {
-			System.out.println(ex.getMessage());
-		}
+
+	}
+	
+	public boolean isInputCorrect() {
+		return (!username.getText().isEmpty() && !password.getText().isEmpty());
 	}
 	
 }

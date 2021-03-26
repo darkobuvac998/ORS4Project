@@ -3,6 +3,7 @@ package application.controllers;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -44,10 +45,12 @@ public class BankBranchesController {
 	@FXML
 	private Button btnf6;
 	
-	ArrayList<BankBranches> branches = new ArrayList<BankBranches>();
+	private Socket socket;
 	
-	FXMLLoader loader = new FXMLLoader();
-	Scene scene;
+	private ArrayList<BankBranches> branches = new ArrayList<BankBranches>();
+	
+	private FXMLLoader loader = new FXMLLoader();
+	private Scene scene;
 	
 	void showBankBranchesView() throws IOException{
 		loader.setLocation(getClass().getResource("/application/views/BankBranchesView.fxml"));
@@ -64,7 +67,6 @@ public class BankBranchesController {
 	@FXML
 	void onMouseEntered(MouseEvent event) {
 		String id = ((Button)event.getSource()).getText();
-		System.out.println(id);
 		BankBranches temp = branches.stream().filter(b -> b.getId().equals(id)).findFirst().get();
 		name.setText(temp.getName());
 		street.setText(temp.getStreet());
