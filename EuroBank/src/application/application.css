@@ -3,5 +3,39 @@
 	-fx-background-size: stretch;
 }
 .btnf{
+	-fx-shape: "M 6 1 C 0 1 4 6 6 9 C 8 6 12 1 6 1";
+	-fx-font-size: 10pt;
+	-fx-pref-width: 100px;
+	-fx-pref-height: 60px;
+	-fx-text-fill: white;  
+    -fx-background-radius: 5,4,3,5;
+    -fx-background-insets: 0 0 -1 0, 0, 1, 2;
+	-fx-background-color: linear-gradient(#eb3349,#f45c43);
+	-fx-font-weight: bold;
 	
+}
+.btnf:hover{
+	-fx-background-color: linear-gradient(#13547a,#80d0c7);
+	-fx-background-radius: 3px, 3px, 2px, 1px;
+	-fx-text-fill: black; 
+}
+
+.btnlog{
+	-fx-background-color: linear-gradient(#ffffff, #c7c7c7);
+	-fx-border-radius: 6px;
+	-fx-border-style: solid;
+	-fx-border-color: lightblue;
+	-fx-cursor: hand;
+	-fx-font-size: 15px;
+	-fx-font-weight: bold;
+	-fx-padding: 5px;
+}
+.btnlog:hover{
+	-fx-background-color: linear-gradient(#c7c7c7, #ffffff);
+}
+.btnlog:active{
+	-fx-position-shape: true;
+}
+.headfoot{
+	-fx-background-color: linear-gradient(#fdfbfb, #ebedee);
 }

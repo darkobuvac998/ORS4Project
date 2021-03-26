@@ -1,16 +1,22 @@
 package application.controllers;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import application.users.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class LogInController {
@@ -22,7 +28,7 @@ public class LogInController {
 	@FXML
 	private TextField username;
 	@FXML
-	private TextField password;
+	private PasswordField password;
 	@FXML
 	private Button logIn;
 	@FXML
@@ -33,6 +39,10 @@ public class LogInController {
 	private Label eblabel;
 	@FXML
 	private ImageView image;
+	@FXML
+	private Label message;
+	
+	ArrayList<User> users = new ArrayList<User>();
 	
 	@FXML
 	void close(ActionEvent event) {
@@ -41,12 +51,44 @@ public class LogInController {
 	
 	@FXML
 	void logIn(ActionEvent event) throws IOException{
-		//TODO Implementirati LogIn (Autentifikaciju)
-		//Napraviti poseban file Users.txt u kome se nalaze korisnici i prilikom prijave
-		//korisnik mora unijeti korisnicko ime i sifru
-		//citanje iz file sistema
-		new BankBranchesController().showBankBranchesView();
-		((Node)event.getSource()).getScene().getWindow().hide();
+		boolean data=false;
+		String user = username.getText();
+		String password = this.password.getText();
+		
+		for(User u : users) {
+			if(u.authentification(user, password)) {
+				data = true;
+				break;
+			}
+		}
+		if(data) {
+			new BankBranchesController().showBankBranchesView();
+			((Node)event.getSource()).getScene().getWindow().hide();
+		}else {
+			message.setText("*Pogrešna lozinka ili korisničko ime");
+		}
+	}
+	@FXML
+	void onMouseExited(MouseEvent event) {
+		message.setText("");
+	}
+	
+	@FXML //Method called from FXMLloader after initialization 
+	void initialize() {
+		try {
+			
+			BufferedReader reader = new BufferedReader(
+					new FileReader("@../../Database/Users.txt"));
+			
+			String s;
+			while((s = reader.readLine())!=null) {
+				String[] data = s.split("#");
+				users.add(new User(data[0], data[1]));
+			}
+			reader.close();
+		} catch (IOException ex) {
+			System.out.println(ex.getMessage());
+		}
 	}
 	
 }
