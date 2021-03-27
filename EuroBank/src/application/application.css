@@ -39,3 +39,62 @@
 .headfoot{
 	-fx-background-color: linear-gradient(#fdfbfb, #ebedee);
 }
+
+.textArea{
+	
+	-fx-background-color: linear-gradient(#fdfbfb, #ebedee);
+	-fx-font-size: 10pt;
+	-fx-font-weight: bold;
+	-fx-text-fill: black;
+}
+
+.btnstop {
+    -fx-background-color:
+            #000000,
+            linear-gradient(#edf1f4, #c3cbdc);
+    -fx-background-insets: 0,1,2,3;
+    -fx-background-radius: 3,2,2,2;
+    -fx-padding: 12 30 12 30;
+    -fx-text-fill: black;
+    -fx-font-size: 11pt;
+    -fx-font-weight: bold;
+}
+.btnstop Text {
+    -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.8) , 0, 0.0 , 0 , 1);
+}
+.btnstop:hover {
+    -fx-background-color:
+            #000000,
+            linear-gradient(#f5f5f1, #e50914);
+    -fx-background-insets: 0,1,2,3;
+    -fx-background-radius: 3,2,2,2;
+    -fx-padding: 12 30 12 30;
+    -fx-text-fill: black;
+    -fx-font-size: 12pt;
+    -fx-font-weight:bold;
+}
+.btnstart {
+    -fx-background-color:
+            #000000,
+            linear-gradient(#edf1f4, #c3cbdc);
+    -fx-background-insets: 0,1,2,3;
+    -fx-background-radius: 3,2,2,2;
+    -fx-padding: 12 30 12 30;
+    -fx-text-fill: black;
+    -fx-font-size: 11pt;
+    -fx-font-weight: bold;
+}
+.btnstart Text {
+    -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.8) , 0, 0.0 , 0 , 1);
+}
+.btnstart:hover {
+    -fx-background-color:
+            #000000,
+            linear-gradient(#ffffff, #378b29);
+    -fx-background-insets: 0,1,2,3;
+    -fx-background-radius: 3,2,2,2;
+    -fx-padding: 12 30 12 30;
+    -fx-text-fill: black;
+    -fx-font-size: 12pt;
+    -fx-font-weight:bold;
+}

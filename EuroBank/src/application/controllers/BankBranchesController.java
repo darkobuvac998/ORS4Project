@@ -1,8 +1,12 @@
 package application.controllers;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
@@ -80,26 +84,36 @@ public class BankBranchesController {
 		workingtime.setText("");
 	}
 	
-	@FXML
+	@FXML //Metoda se poziva od strane FXMLloader-a, nakon linije loader.load()
 	void initialize() {
 		
-		try {
-			
-			BufferedReader reader = new BufferedReader(
-					new FileReader("@../../Database/BankBranches.txt"));
-			
-			String s;
-			while((s = reader.readLine())!=null) {
-				String[] data = s.split("#");
-				branches.add(
-						new BankBranches(data[0], data[1], data[2], data[3]));
+		Thread init = new Thread(()->{
+			try {
+				socket = new Socket(InetAddress.getByName("127.0.0.1"), 9999);
+				
+				BufferedReader reader = new BufferedReader(new InputStreamReader(
+						socket.getInputStream()));
+				PrintWriter writer = new PrintWriter(new BufferedWriter(
+						new OutputStreamWriter(socket.getOutputStream())), true);
+				
+				String request = "MAPVIEW";
+				writer.println(request);
+				
+				String response = reader.readLine();
+				String[] data = response.split(";");
+				for(String s : data) {
+					String[] bank = s.split("#");
+					branches.add(
+							new BankBranches(bank[0], bank[1], bank[2], bank[3]));
+				}
+				reader.close();
+				writer.close();
+				socket.close();
+				
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
 			}
-			reader.close();
-			
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-		}
-		
+		});
+		init.start();
 	}
-
 }

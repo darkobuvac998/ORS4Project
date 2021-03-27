@@ -11,9 +11,11 @@ import java.net.Socket;
 
 public class ServerThread extends Thread{
 	
-	Socket socket;
-	BufferedReader reader;
-	PrintWriter writer;
+	private Socket socket;
+	private BufferedReader reader;
+	private PrintWriter writer;
+	private String request;
+	private String response;
 	
 	public ServerThread(Socket s) {
 		try {
@@ -34,6 +36,8 @@ public class ServerThread extends Thread{
 		try {
 			
 			String request = reader.readLine();
+			this.request = request;
+			
 			String[] data = request.split("#");
 			
 			//Prilikom prijave salju se podaci na server
@@ -41,9 +45,15 @@ public class ServerThread extends Thread{
 				//data = {"USER","username","password"}
 				String response = String.valueOf(
 						authentification(data[1], data[2]));
+				this.response = response;
 				writer.println(response);
 			}
 			
+			if(data[0].equals("MAPVIEW")) {
+				String response = BankBranchesView();
+				this.response = response;
+				writer.println(response);
+			}
 			reader.close();
 			writer.close();
 			socket.close();
@@ -60,7 +70,6 @@ public class ServerThread extends Thread{
 	
 	//provjera da li je prijava validna
 	public boolean authentification(String username, String password) throws IOException {
-//		ArrayList<User> users = new ArrayList<User>();
 		BufferedReader reader = new BufferedReader(
 				new FileReader("@../../Database/Users.txt"));
 		String s;
@@ -74,5 +83,28 @@ public class ServerThread extends Thread{
 		reader.close();
 		return false;
 	}
+	
+	// Metoda koja vraca sve filijale banke potrebne za prozor BankBranchesView
+	public String BankBranchesView() throws IOException{
+		BufferedReader reader = new BufferedReader(
+				new FileReader("@../../Database/BankBranches.txt"));
+		String response = "";
+		String s;
+		while((s = reader.readLine()) != null) {
+			response +=s;
+			response +=";";
+		}
+		reader.close();
+		return response;
+	}
+
+	public String getRequest() {
+		return request;
+	}
+
+	public String getResponse() {
+		return response;
+	}
+	
 
 }

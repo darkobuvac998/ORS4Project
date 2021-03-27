@@ -1,28 +1,42 @@
 package application.server;
 
-import java.net.ServerSocket;
-import java.net.Socket;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-public class ServerMain {
+public class ServerMain extends Application {
 	
-	private static final int PORT = 9999;
+	@SuppressWarnings("exports")
+	@Override
+	public void start(Stage primaryStage) {
+		
+		try {
+			
+			Parent root = FXMLLoader.load(getClass().getResource("views/ServerView.fxml")); 
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource(
+					"/application/application.css").toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("Server");
+			primaryStage.setResizable(false);
+			primaryStage.show();
+			
+			primaryStage.setOnCloseRequest(enent ->{
+				System.exit(0);
+			});
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	
 	public static void main(String[] args) {
 		
-		try {
-			System.out.print("Server je pokrenut");
-			ServerSocket serverSocket = new ServerSocket(PORT);
-			serverSocket.setReuseAddress(true);
-			
-			for(int i=0; i<1000; i++) {
-				Socket socket = serverSocket.accept();
-				new ServerThread(socket).start();
-			}
-			serverSocket.close();
-			
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+		launch(args);
 		
 	}
 
