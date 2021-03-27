@@ -28,6 +28,10 @@ public class ServerController {
 	private Button start;
 	@FXML
 	private Button stop;
+	@FXML
+	private Button close;
+	@FXML
+	private Button clear;
 	
 	private final int SERVER_PORT = 9999;
 	private ServerSocket serverSocket;
@@ -35,25 +39,27 @@ public class ServerController {
 	@FXML
 	void start(ActionEvent event) {
 		start.setDisable(true);
+		stop.setDisable(false);
 		labelName.setStyle("-fx-text-fill: green");
 		Thread server = new Thread(()->{
 			try {
 				textArea.appendText("================ Server je pokrenut ================ \n");
+				serverSocket = new ServerSocket(SERVER_PORT);
+				serverSocket.setReuseAddress(true);
 				while(true) {
-					textArea.appendText("Cekanje na zahtjev klijenta... \n");
+					textArea.appendText("================ Cekanje zahtjeva ================ \n");
 					Socket socket = serverSocket.accept();
-//					new ServerThread(socket).start();
 					ServerThread serverThread = new ServerThread(socket);
 					serverThread.start();
 					try {
 						Thread.sleep(500);
 					} catch (Exception e) {}
-					textArea.appendText("Zahtjev klijenta: "+serverThread.getRequest() + "\n");
-					textArea.appendText("Odgovor servera: "+ serverThread.getResponse() + "\n");
+					textArea.appendText("== Zahtjev klijenta: "+serverThread.getRequest() + "\n");
+					textArea.appendText("== Odgovor servera: "+ serverThread.getResponse() + "\n");
 				}
 				
 			} catch (Exception e) {
-				textArea.appendText(e.getMessage());
+//				textArea.appendText(e.getMessage() + "\n");
 			}
 			
 		});
@@ -62,7 +68,10 @@ public class ServerController {
 	@FXML
 	void stop(ActionEvent event) throws IOException{
 		serverSocket.close();
-		System.exit(0);
+		start.setDisable(false);
+		textArea.appendText("================ Server je ugasen ================ \n");
+		stop.setDisable(true);
+		labelName.setStyle("-fx-text-fill: black");
 	}
 	@FXML
 	void onMouseEntered() {
@@ -80,12 +89,25 @@ public class ServerController {
 	}
 	
 	@FXML
+	void close(ActionEvent event) throws IOException{
+		if(serverSocket!=null && !serverSocket.isClosed()) {
+			serverSocket.close();
+		}
+		System.exit(0);
+	}
+	
+	@FXML
+	void clear(ActionEvent event) {
+		textArea.clear();
+	}
+	
+	@FXML
 	void initialize() throws Exception{
-		serverSocket = new ServerSocket(SERVER_PORT);
-		serverSocket.setReuseAddress(true);
+		stop.setDisable(true);
 		textArea.setDisable(true);
 		start.getTooltip().setShowDelay(new javafx.util.Duration(200));
 		stop.getTooltip().setShowDelay(new javafx.util.Duration(200));
+		clear.getTooltip().setShowDelay(new javafx.util.Duration(200));
 	}
 	
 }

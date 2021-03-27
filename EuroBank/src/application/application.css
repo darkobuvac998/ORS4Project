@@ -41,11 +41,11 @@
 }
 
 .textArea{
-	
 	-fx-background-color: linear-gradient(#fdfbfb, #ebedee);
 	-fx-font-size: 10pt;
 	-fx-font-weight: bold;
-	-fx-text-fill: black;
+	-fx-text-fill: #000000;
+	-fx-opacity: 0.5;
 }
 
 .btnstop {
@@ -69,9 +69,10 @@
     -fx-background-insets: 0,1,2,3;
     -fx-background-radius: 3,2,2,2;
     -fx-padding: 12 30 12 30;
-    -fx-text-fill: black;
+    -fx-text-fill: white;
     -fx-font-size: 12pt;
     -fx-font-weight:bold;
+    -fx-cursor: hand;
 }
 .btnstart {
     -fx-background-color:
@@ -90,11 +91,31 @@
 .btnstart:hover {
     -fx-background-color:
             #000000,
-            linear-gradient(#ffffff, #378b29);
+            linear-gradient(#efefef, #27a770);
     -fx-background-insets: 0,1,2,3;
     -fx-background-radius: 3,2,2,2;
     -fx-padding: 12 30 12 30;
-    -fx-text-fill: black;
+    -fx-text-fill: white;
     -fx-font-size: 12pt;
     -fx-font-weight:bold;
+    -fx-cursor: hand;
+}
+.btnclose{
+	-fx-background-color:
+            #000000,
+            linear-gradient(#edf1f4, #c3cbdc);
+    -fx-background-insets: 0,1,2,3;
+    -fx-background-radius: 3,2,2,2;
+    -fx-font-size: 11pt;
+    -fx-font-weight: bold;
+    -fx-text-fill: black;
+}
+.btnclose:hover{
+	-fx-background-color:
+            #000000,
+            linear-gradient(#37d5d6, #36096d);
+    -fx-font-size: 12pt;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
 }
