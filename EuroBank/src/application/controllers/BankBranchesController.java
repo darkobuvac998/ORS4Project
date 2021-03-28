@@ -67,6 +67,10 @@ public class BankBranchesController {
 		stage.setResizable(false);
 		stage.show();
 		
+		stage.setOnCloseRequest(event -> {
+			System.exit(0);
+		});
+		
 	}
 	@FXML
 	void onMouseEntered(MouseEvent event) {
@@ -83,6 +87,7 @@ public class BankBranchesController {
 		street.setText("");
 		workingtime.setText("");
 	}
+	
 	
 	@FXML //Metoda se poziva od strane FXMLloader-a, nakon linije loader.load()
 	void initialize() {

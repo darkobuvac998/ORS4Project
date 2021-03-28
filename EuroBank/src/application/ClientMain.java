@@ -25,6 +25,7 @@ public class ClientMain extends Application {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		//komentar za git
 	}
 	
 	public static void main(String[] args) {
