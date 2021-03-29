@@ -54,6 +54,13 @@ public class ServerThread extends Thread{
 				this.response = response;
 				writer.println(response);
 			}
+			
+			if (data[0].substring(0, 6).equals("BRANCH")) {
+				String response = BankBranchView(data[0].charAt(7));
+				this.response = response;
+				writer.println(response);
+			}
+			
 			reader.close();
 			writer.close();
 			socket.close();
@@ -106,5 +113,28 @@ public class ServerThread extends Thread{
 		return response;
 	}
 	
+	// Metoda koja vraca filiju banke potrebne za prozor BranchOffice
+	public String BankBranchView(char lineC) throws IOException {
+		BufferedReader reader = new BufferedReader(new FileReader("@../../Database/BankBranches.txt"));
+		String response = "";
+		String s;
+		int count = 0;
+		int line = Integer.parseInt(String.valueOf(lineC)) - 1;
+		while ((s = reader.readLine()) != null) {
+			if (count == line)
+				response += s;
+			count++;
+		}
+		reader.close();
+		return response;
+	}
+
+	public String getRequest() {
+		return request;
+	}
+
+	public String getResponse() {
+		return response;
+	}
 
 }

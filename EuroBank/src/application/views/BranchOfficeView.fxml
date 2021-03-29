@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="949.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.BranchOfficeController">
+  <tabs>
+    <Tab fx:id="btnT" text="Transakcije">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="labelNameC" contentDisplay="CENTER" layoutX="364.5" layoutY="32.0" prefHeight="45.0" prefWidth="290.0" style="-fx-background-color: gray;" textAlignment="CENTER" AnchorPane.leftAnchor="310.0" AnchorPane.rightAnchor="310.0" AnchorPane.topAnchor="32.0">
+                     <font>
+                        <Font size="32.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="87.0" layoutY="133.0" text="Vrsta transakcije: " AnchorPane.leftAnchor="90.0">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <RadioButton fx:id="payment" layoutX="156.0" layoutY="181.0" mnemonicParsing="false" text="Uplata">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="withdrawal" layoutX="156.0" layoutY="219.0" mnemonicParsing="false" text="Isplata">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </RadioButton>
+                  <Label layoutX="87.0" layoutY="285.0" text="Pošiljalac" AnchorPane.leftAnchor="90.0">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="87.0" layoutY="329.0" text="Primalac" AnchorPane.leftAnchor="90.0">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <SplitMenuButton fx:id="chooseSender" layoutX="189.0" layoutY="287.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="203.0" text="izaberite pošiljaoca">
+                     <items>
+                        <MenuItem mnemonicParsing="false" text="Action 1" />
+                        <MenuItem mnemonicParsing="false" text="Action 2" />
+                     </items>
+                  </SplitMenuButton>
+                  <SplitMenuButton fx:id="chooseRecipient" layoutX="189.0" layoutY="332.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="203.0" text="izaberite primaoca">
+                     <items>
+                        <MenuItem mnemonicParsing="false" text="Action 1" />
+                        <MenuItem mnemonicParsing="false" text="Action 2" />
+                     </items>
+                  </SplitMenuButton>
+                  <Label layoutX="142.0" layoutY="396.0" text="Iznos u KM:">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="amount" layoutX="241.0" layoutY="393.0" />
+                  <Label layoutX="535.0" layoutY="136.0" text="Datum transakcije:">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <DatePicker fx:id="date" layoutX="655.0" layoutY="136.0" promptText="dd-mm-gggg" AnchorPane.rightAnchor="90.0" />
+                  <Button fx:id="btnDoTransaction" layoutX="713.0" layoutY="396.0" mnemonicParsing="false" onAction="#doTransaction" prefHeight="58.0" prefWidth="182.0" text="Izvrši transakciju" />
+               </children></AnchorPane>
+      </content>
+    </Tab>
+    <Tab fx:id="btnC" text="Klijenti">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="labelNameT" contentDisplay="CENTER" layoutX="364.5" layoutY="32.0" prefHeight="45.0" prefWidth="290.0" style="-fx-background-color: gray;" textAlignment="CENTER" AnchorPane.leftAnchor="310.0" AnchorPane.rightAnchor="310.0" AnchorPane.topAnchor="32.0">
+                     <font>
+                        <Font size="32.0" />
+                     </font>
+                  </Label>
+                  <TableView layoutX="50.0" layoutY="137.0" prefHeight="381.0" prefWidth="394.0" AnchorPane.leftAnchor="50.0">
+                    <columns>
+                      <TableColumn fx:id="listing" prefWidth="147.19997787475586" text="Spisak klijenata" />
+                      <TableColumn fx:id="balance" prefWidth="132.00001525878906" text="Saldo iznos" />
+                        <TableColumn fx:id="inf" prefWidth="115.199951171875" text="Više informacija" />
+                    </columns>
+                  </TableView>
+                  <Button fx:id="btnNewClient" layoutX="713.0" layoutY="396.0" mnemonicParsing="false" onAction="#addNewClient" prefHeight="58.0" prefWidth="182.0" text="Dodaj novog klijenta" AnchorPane.rightAnchor="50.0" />
+               </children></AnchorPane>
+      </content>
+    </Tab>
+  </tabs>
+</TabPane>
