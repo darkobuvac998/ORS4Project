@@ -104,14 +104,6 @@ public class ServerThread extends Thread{
 		reader.close();
 		return response;
 	}
-
-	public String getRequest() {
-		return request;
-	}
-
-	public String getResponse() {
-		return response;
-	}
 	
 	// Metoda koja vraca filiju banke potrebne za prozor BranchOffice
 	public String BankBranchView(char lineC) throws IOException {
