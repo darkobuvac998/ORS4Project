@@ -98,6 +98,9 @@ public class BankBranchesController {
 			
 			new BranchOfficeController().showBranchOfficeView(temp.getId(), temp.getName());
 			((Node)event.getSource()).getScene().getWindow().hide();
+			if(!socket.isClosed()) {
+				socket.close();
+			}
 	}
 
 	@FXML //Metoda se poziva od strane FXMLloader-a, nakon linije loader.load()

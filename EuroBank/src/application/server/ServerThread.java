@@ -3,6 +3,7 @@ package application.server;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -57,6 +58,12 @@ public class ServerThread extends Thread{
 			
 			if (data[0].substring(0, 6).equals("BRANCH")) {
 				String response = BankBranchView(data[0].charAt(7));
+				this.response = response;
+				writer.println(response);
+			}
+			
+			if(data[0].equals("NEWCLIENT")) {
+				String response = addNewClient(data[1], data[2], data[3]);
 				this.response = response;
 				writer.println(response);
 			}
@@ -119,6 +126,32 @@ public class ServerThread extends Thread{
 		}
 		reader.close();
 		return response;
+	}
+	
+	public String addNewClient(String name, String surname, String jmbg) throws IOException{
+		
+		BufferedReader reader = new BufferedReader(new FileReader("@../../Database/Clients.txt"));
+		BufferedWriter writer = new BufferedWriter(new FileWriter("@../../Database/Clients.txt", true));
+		
+		String s;
+		while((s = reader.readLine()) != null) {
+			String[] data = s.split("#");
+			if(data[0].equals(jmbg)) {
+				reader.close();
+				writer.close();
+				return "ERROR#Uneseni jmbg vec postoji";
+			}
+		}
+		//Kada se doda novi klijent stanje na racunu je 0
+		String client = jmbg+"#"+name+"#"+surname+"#"+"0";
+		
+		writer.write(client);
+		writer.newLine();
+		
+		writer.close();
+		reader.close();
+		
+		return "OK#Novi klijent dodat";
 	}
 
 	public String getRequest() {

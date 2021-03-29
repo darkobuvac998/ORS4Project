@@ -19,7 +19,7 @@ public class ClientMain extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.show();
 			
-			primaryStage.setOnCloseRequest(enent ->{
+			primaryStage.setOnCloseRequest(event ->{
 				System.exit(0);
 			});
 		} catch(Exception e) {
@@ -27,7 +27,6 @@ public class ClientMain extends Application {
 		}
 		//komentar za git
 	}
-	
 	public static void main(String[] args) {
 		launch(args);
 	}

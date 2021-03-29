@@ -58,8 +58,10 @@ public class BranchOfficeController {
     private Button btnNewClient;
 
     @FXML
-    void addNewClient(ActionEvent event) {
-
+    void addNewClient(ActionEvent event) throws IOException{
+    	
+    	new NewClientController().showNewClientView();
+    	
     }
 
     @FXML
