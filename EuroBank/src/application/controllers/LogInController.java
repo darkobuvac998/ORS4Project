@@ -95,7 +95,7 @@ public class LogInController {
 		message.setText("");
 	}
 	
-	@FXML //Method called from FXMLloader after initialization 
+	@FXML //Method called from FXMLloader after initialisation 
 	void initialize() {
 
 	}

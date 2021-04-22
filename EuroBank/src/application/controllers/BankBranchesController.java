@@ -78,10 +78,13 @@ public class BankBranchesController {
 	@FXML
 	void onMouseEntered(MouseEvent event) {
 		String id = ((Button)event.getSource()).getText();
-		BankBranches temp = branches.stream().filter(b -> b.getId().equals(id)).findFirst().get();
-		name.setText(temp.getName());
-		street.setText(temp.getStreet());
-		workingtime.setText(temp.getWorkingTime());
+		BankBranches temp;
+		if(branches.stream().filter(b -> b.getId().equals(id)).findFirst().get() != null) {
+			temp = branches.stream().filter(b -> b.getId().equals(id)).findFirst().get();
+			name.setText(temp.getName());
+			street.setText(temp.getStreet());
+			workingtime.setText(temp.getWorkingTime());
+		}
 	}
 
 	@FXML

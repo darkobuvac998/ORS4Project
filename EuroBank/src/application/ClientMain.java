@@ -19,14 +19,14 @@ public class ClientMain extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.show();
 			
-			primaryStage.setOnCloseRequest(event ->{
+			primaryStage.setOnCloseRequest(enent ->{
 				System.exit(0);
 			});
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		//komentar za git
 	}
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
