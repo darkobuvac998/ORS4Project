@@ -261,8 +261,8 @@ public class BranchOfficeController implements Initializable {
 						if (response.split("#")[0].equals("ERROR")) {
 							Alert alert = new Alert(AlertType.ERROR, response.split("#")[1] + "!", ButtonType.OK);
 							alert.show();
-							alert.setTitle("Greska");
-							alert.setHeaderText("Greska!");
+							alert.setTitle("Greška");
+							alert.setHeaderText("Greška!");
 							if (alert.getResult() == ButtonType.OK) {
 								alert.close();
 							}

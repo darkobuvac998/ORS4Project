@@ -11,7 +11,6 @@ import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -52,6 +51,8 @@ public class NewClientController {
 	private FXMLLoader loader = new FXMLLoader();
 	private Scene scene;
 	
+	BranchOfficeController boc = new BranchOfficeController();
+	
 	private boolean isInputCorrect() throws Exception{
 		if(name.getText().isEmpty() || surname.getText().isEmpty() || jmbg.getText().isEmpty()) {
 			return false;
@@ -73,7 +74,6 @@ public class NewClientController {
 		stage.setOnCloseRequest(event -> {
 			stage.close();
 		});
-
 	}
 	
 	@FXML
@@ -109,6 +109,7 @@ public class NewClientController {
 					if(alert.getResult() == ButtonType.OK) {
 						alert.close();
 						((Node)event.getSource()).getScene().getWindow().hide();
+						boc.updateTable();
 					}
 				}
 				
