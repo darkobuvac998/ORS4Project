@@ -132,5 +132,10 @@ public class InfoViewController {
 		personC.setCellValueFactory(new PropertyValueFactory<History, String>("person"));
 
 		tableView.setItems(list);
+		
+		branchOfficeC.setReorderable(false);
+		dateC.setReorderable(false);
+		amountC.setReorderable(false);
+		personC.setReorderable(false);
 	}
 }

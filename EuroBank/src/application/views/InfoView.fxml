@@ -11,10 +11,10 @@
    <children>
       <TableView fx:id="tableView" layoutX="53.0" layoutY="201.0" prefHeight="200.0" prefWidth="480.0" AnchorPane.leftAnchor="53.0">
         <columns>
-            <TableColumn fx:id="branchOfficeC" prefWidth="120.0" resizable="false" text="Mjesto" />
-            <TableColumn fx:id="dateC" prefWidth="120.0" text="Datum" />
-          <TableColumn fx:id="amountC" prefWidth="120.0" resizable="false" text="Iznos" />
-          <TableColumn fx:id="personC" prefWidth="120.0" resizable="false" text="Pošiljalac/Primalac" />
+            <TableColumn fx:id="branchOfficeC" editable="false" prefWidth="120.0" resizable="false" text="Mjesto" />
+            <TableColumn fx:id="dateC" editable="false" prefWidth="119.0" resizable="false" text="Datum" />
+          <TableColumn fx:id="amountC" editable="false" prefWidth="119.0" resizable="false" text="Iznos" />
+          <TableColumn fx:id="personC" editable="false" prefWidth="120.0" resizable="false" text="Pošiljalac/Primalac" />
         </columns>
       </TableView>
       <Label layoutX="33.0" layoutY="30.0" text="Ime:">

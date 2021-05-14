@@ -10,6 +10,8 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -25,6 +27,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
@@ -57,7 +60,7 @@ public class BranchOfficeController implements Initializable {
 	@FXML
 	private TextField amount;
 	@FXML
-	private TextField date;
+    private DatePicker dateP;
 	@FXML
 	private Label chooseMsg;
 	@FXML
@@ -99,8 +102,6 @@ public class BranchOfficeController implements Initializable {
 	private static ArrayList<String> clientsName = new ArrayList<String>();
 	private static ObservableList<Clients> list;
 	private static ObservableList<String> listCName;
-
-	private ArrayList<Button> buttons = new ArrayList<Button>();
 
 	void showBranchOfficeView(String id, String name) throws IOException {
 		BranchOfficeController.id = id;
@@ -184,6 +185,9 @@ public class BranchOfficeController implements Initializable {
 			infC.setCellFactory(cellFactory);
 
 			tableView.setItems(list);
+			nameC.setReorderable(false);
+			balanceC.setReorderable(false);
+			infC.setReorderable(false);
 
 			btnNewClient.setOnAction(event -> {
 				try {
@@ -200,7 +204,7 @@ public class BranchOfficeController implements Initializable {
 				chooseRecipient.getSelectionModel().clearSelection();
 				rbDeposit.setSelected(false);
 				rbWithdraw.setSelected(false);
-				date.clear();
+				dateP.setValue(LocalDate.now());
 				chooseMsg.setText("");
 				transactionMsg.setText("");
 				dateMsg.setText("");
@@ -222,13 +226,16 @@ public class BranchOfficeController implements Initializable {
 
 			// doTransaction button
 			btnDoTransaction.setOnAction(event -> {
+				System.out.println(dateP.getValue());
 				chooseMsg.setText("");
 				transactionMsg.setText("");
 				dateMsg.setText("");
 				amountMsg.setText("");
 				message.setText("");
 
-				if (isInputCorrect() && isDateCorrect() && isAmountCorrect()) {
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+				
+				if (isInputCorrect() && isAmountCorrect()) {
 					try {
 						socket = new Socket(InetAddress.getByName("127.0.0.1"), 9999);
 						BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -239,18 +246,18 @@ public class BranchOfficeController implements Initializable {
 						if (tgTransaction.getSelectedToggle() == rbWithdraw) {
 							request = "NEWTRANSACTION#"
 									+ clients.get(chooseSender.getSelectionModel().getSelectedIndex()).getJmbg() + "#0#"
-									+ amount.getText() + "#" + date.getText() + "#" + id + " - " + name; // 0 za da primlac nije izabran
+									+ amount.getText() + "#" + dateP.getValue().format(formatter) + "#" + id + " - " + name; // 0 za da primlac nije izabran
 						} else {
 							if (chooseSender.getSelectionModel().isEmpty()) {
 								request = "NEWTRANSACTION#0#"
 										+ clients.get(chooseRecipient.getSelectionModel().getSelectedIndex()).getJmbg()
-										+ "#" + amount.getText() + "#" + date.getText() + "#" + id + " - " + name;
+										+ "#" + amount.getText() + "#" + dateP.getValue().format(formatter) + "#" + id + " - " + name;
 							} else {
 								request = "NEWTRANSACTION#"
 										+ clients.get(chooseSender.getSelectionModel().getSelectedIndex()).getJmbg()
 										+ "#"
 										+ clients.get(chooseRecipient.getSelectionModel().getSelectedIndex()).getJmbg()
-										+ "#" + amount.getText() + "#" + date.getText() + "#" + id + " - " + name;
+										+ "#" + amount.getText() + "#" + dateP.getValue().format(formatter) + "#" + id + " - " + name;
 							}
 						}
 
@@ -261,8 +268,8 @@ public class BranchOfficeController implements Initializable {
 						if (response.split("#")[0].equals("ERROR")) {
 							Alert alert = new Alert(AlertType.ERROR, response.split("#")[1] + "!", ButtonType.OK);
 							alert.show();
-							alert.setTitle("Greška");
-							alert.setHeaderText("Greška!");
+							alert.setTitle("Greska");
+							alert.setHeaderText("Greska!");
 							if (alert.getResult() == ButtonType.OK) {
 								alert.close();
 							}
@@ -285,7 +292,12 @@ public class BranchOfficeController implements Initializable {
 						System.out.println(e.getMessage());
 					}
 
-					System.out.println("proslo");
+					amount.clear();
+					chooseSender.getSelectionModel().clearSelection();
+					chooseRecipient.getSelectionModel().clearSelection();
+					rbDeposit.setSelected(false);
+					rbWithdraw.setSelected(false);
+					dateP.setValue(LocalDate.now());
 					transactionMsg.setText("");
 					chooseMsg.setText("");
 					dateMsg.setText("");
@@ -303,13 +315,13 @@ public class BranchOfficeController implements Initializable {
 					} else if (tgTransaction.getSelectedToggle() == rbDeposit
 							&& chooseRecipient.getSelectionModel().isEmpty()) {
 						chooseMsg.setText("*Pogrešan unos!");
-					}else if (amount.getText().isEmpty() || !isAmountCorrect()) {
-						amountMsg.setText("*Pogrešan unos!");
-					} else if (date.getText().isEmpty() || !isDateCorrect()) {
-						dateMsg.setText("*Pogrešan unos!");
 					} else if (chooseSender.getSelectionModel().getSelectedItem()
 							.equals(chooseRecipient.getSelectionModel().getSelectedItem())) {
 						chooseMsg.setText("*Pogrešan unos!");
+					} else if (amount.getText().isEmpty() || !isAmountCorrect()) {
+						amountMsg.setText("*Pogrešan unos!");
+					} else if (dateP.getValue() == null) {
+						dateMsg.setText("*Pogrešan unos!");
 					} else {
 						message.setText("*Popunite sva polja!");
 					}
@@ -355,7 +367,6 @@ public class BranchOfficeController implements Initializable {
 		clientsView();
 		list.add(clients.get(clients.size() - 1));
 		listCName.add(clients.get(clients.size() - 1).getName());
-		buttons.add(new Button());
 	}
 
 	public void updateTable1() throws IOException {
@@ -369,14 +380,14 @@ public class BranchOfficeController implements Initializable {
 		if (tgTransaction.getSelectedToggle() == null) {
 			return false;
 		} else if (tgTransaction.getSelectedToggle() == rbWithdraw) {
-			if (chooseSender.getSelectionModel().isEmpty() || amount.getText().isEmpty() || date.getText().isEmpty()) {
+			if (chooseSender.getSelectionModel().isEmpty() || amount.getText().isEmpty() || dateP.getValue() == null) {
 				return false;
 			} else {
 				return true;
 			}
 		} else {
 			if (chooseRecipient.getSelectionModel().isEmpty() || amount.getText().isEmpty()
-					|| date.getText().isEmpty()) {
+					|| dateP.getValue() == null) {
 				return false;
 			} else {
 				if (chooseSender.getSelectionModel().isEmpty())
@@ -388,22 +399,6 @@ public class BranchOfficeController implements Initializable {
 			}
 		}
 		return true;
-	}
-
-	private boolean isDateCorrect() {
-		String pom = date.getText();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		sdf.setLenient(false);
-		try {
-			sdf.parse(pom);
-			if (pom.substring(pom.lastIndexOf('/') + 1, pom.length()).length() > 4)
-				return false;
-			else
-				return true;
-		} catch (Exception e) {
-			// e.printStackTrace();
-			return false;
-		}
 	}
 
 	// double sa tackom
